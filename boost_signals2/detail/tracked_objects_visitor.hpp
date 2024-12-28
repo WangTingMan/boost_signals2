@@ -54,7 +54,15 @@ namespace boist
         void m_visit_pointer(const T &t, std::true_type) const
         {
             using check_type = std::is_function<typename std::remove_pointer<T>::type>;
-            m_visit_not_function_pointer(&t, check_type());
+            if constexpr (std::is_pointer_v<T>)
+            {
+                const T p_t = t;
+                m_visit_not_function_pointer(p_t, check_type());
+            }
+            else
+            {
+                m_visit_not_function_pointer(&t, check_type());
+            }
         }
         template<typename T>
         void m_visit_pointer(const T &t, std::false_type) const
