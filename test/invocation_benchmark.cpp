@@ -16,8 +16,10 @@ typedef boist::signals2::signal<void ()> signal_type;
 
 void myslot()
 {
-/*  std::cout << __FUNCTION__ << std::endl;
-  sleep(1);*/
+  /*
+  std::cout << __FUNCTION__ << std::endl;
+  std::this_thread::sleep_for(std::chrono::milliseconds(10));
+  */
 }
 
 void thread_initial(signal_type *signal, unsigned num_invocations)
@@ -31,13 +33,19 @@ void thread_initial(signal_type *signal, unsigned num_invocations)
 
 int main(int argc, const char **argv)
 {
+  unsigned num_threads = 10;
+  unsigned num_connections = 10;
   if(argc < 3)
   {
     std::cerr << "usage: " << argv[0] << " <num threads> <num connections>" << std::endl;
-    return -1;
+    num_threads = 10;
+    num_connections = 1000;
   }
-  static const unsigned num_threads = std::strtol(argv[1], 0, 0);
-  static const unsigned num_connections = std::strtol(argv[2], 0, 0);
+  else
+  {
+      num_threads = std::strtol(argv[1], 0, 0);
+      num_connections = std::strtol(argv[2], 0, 0);
+  }
   std::vector<std::thread> threads;
   signal_type sig;
 

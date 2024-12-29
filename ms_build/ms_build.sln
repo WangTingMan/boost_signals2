@@ -71,6 +71,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "track_test", "track_test\tr
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "trackable_test", "trackable_test\trackable_test.vcxproj", "{40F63FB0-D366-4E6B-9DFB-941E5D23759E}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "multi_thread_test", "multi_thread_test\multi_thread_test.vcxproj", "{03A6D615-7A7A-4805-BC82-F14584C5C04D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -335,6 +337,14 @@ Global
 		{40F63FB0-D366-4E6B-9DFB-941E5D23759E}.Release|x64.Build.0 = Release|x64
 		{40F63FB0-D366-4E6B-9DFB-941E5D23759E}.Release|x86.ActiveCfg = Release|Win32
 		{40F63FB0-D366-4E6B-9DFB-941E5D23759E}.Release|x86.Build.0 = Release|Win32
+		{03A6D615-7A7A-4805-BC82-F14584C5C04D}.Debug|x64.ActiveCfg = Debug|x64
+		{03A6D615-7A7A-4805-BC82-F14584C5C04D}.Debug|x64.Build.0 = Debug|x64
+		{03A6D615-7A7A-4805-BC82-F14584C5C04D}.Debug|x86.ActiveCfg = Debug|Win32
+		{03A6D615-7A7A-4805-BC82-F14584C5C04D}.Debug|x86.Build.0 = Debug|Win32
+		{03A6D615-7A7A-4805-BC82-F14584C5C04D}.Release|x64.ActiveCfg = Release|x64
+		{03A6D615-7A7A-4805-BC82-F14584C5C04D}.Release|x64.Build.0 = Release|x64
+		{03A6D615-7A7A-4805-BC82-F14584C5C04D}.Release|x86.ActiveCfg = Release|Win32
+		{03A6D615-7A7A-4805-BC82-F14584C5C04D}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -372,6 +382,7 @@ Global
 		{011C69F1-0605-4DD3-8338-27356FFDD5A7} = {040695C8-B8FE-4BE8-92BC-3774AE17439C}
 		{1F6B3D7C-4B0A-4F37-8E38-1EC93D3B7F08} = {040695C8-B8FE-4BE8-92BC-3774AE17439C}
 		{40F63FB0-D366-4E6B-9DFB-941E5D23759E} = {040695C8-B8FE-4BE8-92BC-3774AE17439C}
+		{03A6D615-7A7A-4805-BC82-F14584C5C04D} = {040695C8-B8FE-4BE8-92BC-3774AE17439C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {92FBDE70-E0C9-44D3-8203-472A3207296B}
