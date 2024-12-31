@@ -810,23 +810,34 @@ namespace boist
             return ( *shared_pimpl )( args... );
         }
 
-          result_type operator ()( Args ... args ) const
+        result_type operator ()( Args ... args ) const
         {
               std::shared_ptr<detail::signal_impl
                   <R( Args... ), Combiner, Group, GroupCompare, SlotFunction, ExtendedSlotFunction, Mutex> >
             shared_pimpl(_weak_pimpl.lock());
               return ( *shared_pimpl )( args... );
         }
-          bool contains( const signal
+
+        bool contains( const signal
                          <R( Args... ), Combiner, Group, GroupCompare, SlotFunction, ExtendedSlotFunction, Mutex>& signal ) const
         {
           return _weak_pimpl.lock().get() == signal._pimpl.get(); 
         }
+
         template <typename T>
-        bool contains(const T&) const
+        bool contains(const T& t) const
         {
+          if constexpr( std::is_pointer_v<T> )
+          {
+              if constexpr( std::is_same_v<signal
+                            <R( Args... ), Combiner, Group, GroupCompare, SlotFunction, ExtendedSlotFunction, Mutex>, std::remove_pointer_t<T>> )
+              {
+                  return contains( *t );
+              }
+          }
           return false;
         }
+
       private:
           std::weak_ptr<detail::signal_impl
               <R( Args... ), Combiner, Group, GroupCompare, SlotFunction, ExtendedSlotFunction, Mutex> > _weak_pimpl;

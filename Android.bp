@@ -1,0 +1,224 @@
+
+cc_library_headers {
+    name: "boist_signals2_headers",
+    export_include_dirs: ["./"],
+
+    vendor_available: true,
+    product_available: true,
+    ramdisk_available: true,
+    vendor_ramdisk_available: true,
+    recovery_available: true,
+    host_supported: true,
+    native_bridge_supported: true,
+    target: {
+        linux_bionic: {
+            enabled: true,
+        },
+        windows: {
+            enabled: true,
+        },
+    },
+    visibility: ["//visibility:public"],
+    min_sdk_version: "29",
+    sdk_version: "current",
+    apex_available: [
+        "//apex_available:anyapex",
+        "//apex_available:platform",
+    ],
+}
+
+cc_defaults {
+    name: "signals2_defaults",
+    include_dirs: [
+        "./",
+    ],
+    cflags: [
+        "-frtti",
+        "-fexceptions",
+        "-Wall",
+        "-Werror",
+        "-Wextra",
+    ],
+    rtti: true,
+    //cpp_std: "c++20",
+}
+
+cc_binary_host {
+    name: "connect_disconnect",
+    defaults: [
+        "signals2_defaults",
+    ],
+    srcs: [
+        "example/connect_disconnect.cpp",
+    ],
+}
+
+cc_binary_host {
+    name: "custom_combiners",
+    defaults: [
+        "signals2_defaults",
+    ],
+    srcs: [
+        "example/custom_combiners.cpp",
+    ],
+}
+
+cc_binary_host {
+    name: "disconnect_and_block",
+    defaults: [
+        "signals2_defaults",
+    ],
+    srcs: [
+        "example/disconnect_and_block.cpp",
+    ],
+}
+
+cc_binary_host {
+    name: "distribute_request",
+    defaults: [
+        "signals2_defaults",
+    ],
+    srcs: [
+        "example/distribute_request.cpp",
+    ],
+}
+
+cc_binary_host {
+    name: "doc_view",
+    defaults: [
+        "signals2_defaults",
+    ],
+    srcs: [
+        "example/doc_view.cpp",
+    ],
+}
+
+cc_binary_host {
+    name: "doc_view_acm",
+    defaults: [
+        "signals2_defaults",
+    ],
+    srcs: [
+        "example/doc_view_acm.cpp",
+    ],
+}
+
+cc_binary_host {
+    name: "doc_view_acm_deconstruct",
+    defaults: [
+        "signals2_defaults",
+    ],
+    srcs: [
+        "example/doc_view_acm_deconstruct.cpp",
+    ],
+}
+
+cc_binary_host {
+    name: "extended_slot",
+    defaults: [
+        "signals2_defaults",
+    ],
+    srcs: [
+        "example/extended_slot.cpp",
+    ],
+}
+
+cc_binary_host {
+    name: "hello_world_multi_slot",
+    defaults: [
+        "signals2_defaults",
+    ],
+    srcs: [
+        "example/hello_world_multi_slot.cpp",
+    ],
+}
+
+cc_binary_host {
+    name: "hello_world_slot",
+    defaults: [
+        "signals2_defaults",
+    ],
+    srcs: [
+        "example/hello_world_slot.cpp",
+    ],
+}
+
+cc_binary_host {
+    name: "ordering_slots",
+    defaults: [
+        "signals2_defaults",
+    ],
+    srcs: [
+        "example/ordering_slots.cpp",
+    ],
+}
+
+cc_binary_host {
+    name: "passing_slots",
+    defaults: [
+        "signals2_defaults",
+    ],
+    srcs: [
+        "example/passing_slots.cpp",
+    ],
+}
+
+cc_binary_host {
+    name: "postconstructor_ex1",
+    defaults: [
+        "signals2_defaults",
+    ],
+    srcs: [
+        "example/postconstructor_ex1.cpp",
+    ],
+}
+
+cc_binary_host {
+    name: "postconstructor_ex2",
+    defaults: [
+        "signals2_defaults",
+    ],
+    srcs: [
+        "example/postconstructor_ex2.cpp",
+    ],
+}
+
+cc_binary_host {
+    name: "predestructor_example",
+    defaults: [
+        "signals2_defaults",
+    ],
+    srcs: [
+        "example/predestructor_example.cpp",
+    ],
+}
+
+cc_binary_host {
+    name: "signal_return_value",
+    defaults: [
+        "signals2_defaults",
+    ],
+    srcs: [
+        "example/signal_return_value.cpp",
+    ],
+}
+
+cc_binary_host {
+    name: "slot_arguments",
+    defaults: [
+        "signals2_defaults",
+    ],
+    srcs: [
+        "example/slot_arguments.cpp",
+    ],
+}
+
+cc_binary_host {
+    name: "multi_thread_test",
+    defaults: [
+        "signals2_defaults",
+    ],
+    srcs: [
+        "example/multi_thread_test.cpp",
+    ],
+}

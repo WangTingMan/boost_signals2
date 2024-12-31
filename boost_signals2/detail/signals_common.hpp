@@ -21,27 +21,32 @@ namespace boist {
     namespace detail {
 
 
-    template<typename T> struct is_std_reference_wrapper
+    template<typename T>
+    struct is_std_reference_wrapper
     {
         using type = std::false_type;
     };
 
-    template<typename T> struct is_std_reference_wrapper<std::reference_wrapper<T>>
+    template<typename T>
+    struct is_std_reference_wrapper<std::reference_wrapper<T>>
     {
         using type = std::true_type;
     };
 
-    template<typename T> struct is_std_reference_wrapper<std::reference_wrapper<T> const>
+    template<typename T>
+    struct is_std_reference_wrapper<std::reference_wrapper<T> const>
     {
         using type = std::true_type;
     };
 
-    template<typename T> struct is_std_reference_wrapper<std::reference_wrapper<T> volatile>
+    template<typename T>
+    struct is_std_reference_wrapper<std::reference_wrapper<T> volatile>
     {
         using type = std::true_type;
     };
 
-    template<typename T> struct is_std_reference_wrapper<std::reference_wrapper<T> const volatile>
+    template<typename T>
+    struct is_std_reference_wrapper<std::reference_wrapper<T> const volatile>
     {
         using type = std::true_type;
     };
