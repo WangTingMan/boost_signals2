@@ -165,7 +165,7 @@ namespace boist
           const group_compare_type &group_compare):
           _shared_state(std::make_shared<invocation_state>(connection_list_type(group_compare), combiner_arg)),
           _garbage_collector_it(_shared_state->connection_bodies().end()),
-          _mutex(new mutex_type())
+          _mutex(std::make_shared<mutex_type>())
         {}
         // connect slot
         connection connect(const slot_type &slot, connect_position position = at_back)
@@ -202,7 +202,7 @@ namespace boist
         // disconnect slot(s)
         void disconnect_all_slots()
         {
-            std::shared_ptr<invocation_state> local_state =
+          std::shared_ptr<invocation_state> local_state =
             get_readable_state();
           typename connection_list_type::iterator it;
           for(it = local_state->connection_bodies().begin();
@@ -224,6 +224,13 @@ namespace boist
           {
             (*it)->disconnect();
           }
+
+          /**
+           * We cal clear all connection bodies here since we already disconnected all slots.
+           * It needs lock here
+           */
+          garbage_collecting_lock<mutex_type> list_locker( *_mutex );
+          local_state->connection_bodies().clear();
         }
         template <typename T>
         void disconnect(const T &slot)
@@ -279,7 +286,7 @@ namespace boist
           {
             garbage_collecting_lock<mutex_type> list_lock(*_mutex);
             // only clean up if it is safe to do so
-            if(_shared_state.unique())
+            if( _shared_state.use_count() == 1 )
               nolock_cleanup_connections(list_lock, false, 1);
             /* Make a local copy of _shared_state while holding mutex, so we are
             thread safe against the combiner or connection list getting modified
@@ -334,6 +341,14 @@ namespace boist
           else
             _shared_state = std::make_shared<invocation_state>(*_shared_state, combiner_arg);
         }
+        void shrink_slots()const
+        {
+            garbage_collecting_lock<mutex_type> list_locker( *_mutex );
+            if( _shared_state.use_count() == 1 )
+            {
+                nolock_cleanup_connections( list_locker, false, 1 );
+            }
+        }
       private:
         typedef Mutex mutex_type;
 
@@ -343,16 +358,16 @@ namespace boist
         {
         public:
           invocation_state(const connection_list_type &connections_in,
-            const combiner_type &combiner_in): _connection_bodies(new connection_list_type(connections_in)),
-            _combiner(new combiner_type(combiner_in))
+            const combiner_type &combiner_in): _connection_bodies(std::make_shared<connection_list_type>(connections_in)),
+            _combiner(std::make_shared<combiner_type>(combiner_in))
           {}
           invocation_state(const invocation_state &other, const connection_list_type &connections_in):
-            _connection_bodies(new connection_list_type(connections_in)),
+            _connection_bodies(std::make_shared<connection_list_type>(connections_in)),
             _combiner(other._combiner)
           {}
           invocation_state(const invocation_state &other, const combiner_type &combiner_in):
             _connection_bodies(other._connection_bodies),
-            _combiner(new combiner_type(combiner_in))
+            _combiner(std::make_shared<combiner_type>(combiner_in))
           {}
           connection_list_type & connection_bodies() { return *_connection_bodies; }
           const connection_list_type & connection_bodies() const { return *_connection_bodies; }
@@ -633,7 +648,7 @@ namespace boist
 
       signal( const combiner_type& combiner_arg = combiner_type(),
         const group_compare_type &group_compare = group_compare_type()):
-        _pimpl(new impl_class(combiner_arg, group_compare))
+        _pimpl(std::make_shared<impl_class>(combiner_arg, group_compare))
       {}
       virtual ~signal()
       {
